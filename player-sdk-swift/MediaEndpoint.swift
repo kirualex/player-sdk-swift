@@ -39,9 +39,11 @@ public class MediaEndpoint : Equatable, Hashable {
     
     public let uri:String
     var forcedProtocol:MediaProtocol?
+    var speed : Float
 
-    public init(mediaUri:String!) {
+    public init(mediaUri:String!, speed: Float = 1.0) {
         self.uri = mediaUri
+        self.speed = speed
     }
     
     public func forceProtocol(_ mediaProtocol:MediaProtocol) -> MediaEndpoint{

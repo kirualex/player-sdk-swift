@@ -134,7 +134,8 @@ public extension AudioPlayer {
     // You recieve a PlaybackContol in all cases. You cannot use ybrid specific actions.
     //
     // listener - object to be called back from the player process
-    static func open(for endpoint:MediaEndpoint, listener: AudioPlayerListener?,
+    static func open(for endpoint:MediaEndpoint,
+                     listener: AudioPlayerListener?,
                      control: PlaybackControlCallback? = nil ) throws {
         try AudioPlayer.open(for: endpoint, listener: listener, playbackControl: control, ybridControl: control)
     }

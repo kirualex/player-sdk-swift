@@ -37,7 +37,10 @@ class PlaybackEngine : Playback {
 
     let engine:AVAudioEngine = AVAudioEngine() /// visible for unit testing
     let playerNode:AVAudioPlayerNode = AVAudioPlayerNode() /// visible for unit testing
+    public let speedControl = AVAudioUnitVarispeed()
+    public let pitchControl = AVAudioUnitTimePitch()
     var sampleRate:Double /// visible for unit testing
+    var speed : Float = 1.0
     
     var timer:DispatchSourceTimer? /// visible for unit testing
     private let timerInterval = DispatchTimeInterval.milliseconds(200)
@@ -58,9 +61,19 @@ class PlaybackEngine : Playback {
         self.playerListener = listener
         
         self.engine.attach(self.playerNode)
+        self.engine.attach(self.pitchControl)
+        self.engine.attach(self.speedControl)
+        
+        
+        self.speedControl.rate = self.speed
+        let pitchChange = log2(speed) * 1200.0
+        self.pitchControl.pitch = pitchChange * -1
+        
         // an interleaved format leads to exception with code=-10868 --> kAudioUnitErr_FormatNotSupported
         Logger.playing.debug("engine format is \(AudioData.describeAVFormat(format)) ")
-        self.engine.connect(self.playerNode, to: self.engine.mainMixerNode, format: format)
+        self.engine.connect(self.playerNode, to: self.speedControl, format: format)
+        self.engine.connect(self.speedControl, to: self.pitchControl, format: format)
+        self.engine.connect(self.pitchControl, to: self.engine.outputNode, format: format)
         self.engine.prepare()
     }
     
