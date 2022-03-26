@@ -169,13 +169,13 @@ class AudioPipeline : DecoderListener, MemoryListener, MetadataListener {
             guard let buffer = self.buffer else {
                 /// first time format is detected
                 let engine = PlaybackEngine(format: pcmTargetFormat, infinite: infinite, listener: playerListener )
+                engine.speed = self.session.endpoint.speed
                 if let buffer = engine.start() {
                     self.pipelineListener.ready(playback: engine)
                     self.buffer = buffer
                 }
                 return
             }
-                
             if !resumed {
                 /// subsequent format change is detected
                 /// affects scheduler and connection to engine
