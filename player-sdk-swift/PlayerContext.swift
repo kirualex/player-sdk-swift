@@ -56,6 +56,7 @@ public class PlayerContext {
     
     #if os(iOS)
     static func setupAudioSession() {
+        return
         let avs = AVAudioSession.sharedInstance()
         do {
             Logger.playing.debug("available catergories \(avs.availableCategories)")
