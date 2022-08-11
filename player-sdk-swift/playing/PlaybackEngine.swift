@@ -81,7 +81,7 @@ class PlaybackEngine : Playback {
     deinit {
         Logger.playing.debug()
         self.engine.disconnectNodeInput(playerNode)
-        self.engine.detach(playerNode)
+//        self.engine.detach(playerNode)
     }
     
     func alterTarget(format: AVAudioFormat) {

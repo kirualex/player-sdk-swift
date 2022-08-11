@@ -225,7 +225,10 @@ class OpusData : AudioData {
             throw AudioDataError(.notSupported, errMsg)
         }
         
-        super.format = AVAudioFormat(commonFormat: AVAudioCommonFormat.otherFormat, sampleRate: 48000, channels: UInt32(opusHead.outChannels), interleaved: true)
+        super.format = AVAudioFormat(commonFormat: AVAudioCommonFormat.otherFormat,
+                                     sampleRate: 48000,
+                                     channels: UInt32(opusHead.outChannels),
+                                     interleaved: true)
         if opusHead.preSkip > 0 {
             opusListener?.preskip(preskip: opusHead.preSkip)
         }
